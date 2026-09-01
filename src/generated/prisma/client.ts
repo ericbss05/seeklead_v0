@@ -66,3 +66,8 @@ export type VerificationToken = Prisma.VerificationTokenModel
  * 
  */
 export type IcpProfile = Prisma.IcpProfileModel
+/**
+ * Model Agent
+ * 
+ */
+export type Agent = Prisma.AgentModel

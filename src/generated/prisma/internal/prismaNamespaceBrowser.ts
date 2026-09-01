@@ -55,7 +55,8 @@ export const ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
-  IcpProfile: 'IcpProfile'
+  IcpProfile: 'IcpProfile',
+  Agent: 'Agent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -142,6 +143,21 @@ export const IcpProfileScalarFieldEnum = {
 } as const
 
 export type IcpProfileScalarFieldEnum = (typeof IcpProfileScalarFieldEnum)[keyof typeof IcpProfileScalarFieldEnum]
+
+
+export const AgentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  signalType: 'signalType',
+  interactionTypes: 'interactionTypes',
+  keywords: 'keywords',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AgentScalarFieldEnum = (typeof AgentScalarFieldEnum)[keyof typeof AgentScalarFieldEnum]
 
 
 export const SortOrder = {

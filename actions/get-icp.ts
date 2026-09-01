@@ -1,7 +1,8 @@
 "use server";
 
-import { auth } from "@/auth"; // adapter si votre helper de session a un autre chemin/nom
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+
 import type { MatchingMode } from "@/components/icp-form/constants";
 
 export interface SaveIcpProfileInput {
@@ -13,8 +14,24 @@ export interface SaveIcpProfileInput {
   exclude: string[];
   mode: MatchingMode;
   funding: string;
-  headcountMin: string; // vide si non renseigné
+  headcountMin: string;
   headcountMax: string;
+}
+
+export async function getIcpProfile() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    throw new Error("Utilisateur non authentifié.");
+  }
+
+  const profile = await prisma.icpProfile.findUnique({
+    where: {
+      userId: session.user.id,
+    },
+  });
+
+  return profile;
 }
 
 export async function saveIcpProfile(input: SaveIcpProfileInput) {
@@ -24,11 +41,19 @@ export async function saveIcpProfile(input: SaveIcpProfileInput) {
     throw new Error("Utilisateur non authentifié.");
   }
 
-  const headcountMin = input.headcountMin ? parseInt(input.headcountMin, 10) : null;
-  const headcountMax = input.headcountMax ? parseInt(input.headcountMax, 10) : null;
+  const headcountMin = input.headcountMin
+    ? parseInt(input.headcountMin, 10)
+    : null;
+
+  const headcountMax = input.headcountMax
+    ? parseInt(input.headcountMax, 10)
+    : null;
 
   const saved = await prisma.icpProfile.upsert({
-    where: { userId: session.user.id },
+    where: {
+      userId: session.user.id,
+    },
+
     create: {
       userId: session.user.id,
       jobTitles: input.jobTitles,
@@ -42,6 +67,7 @@ export async function saveIcpProfile(input: SaveIcpProfileInput) {
       headcountMin,
       headcountMax,
     },
+
     update: {
       jobTitles: input.jobTitles,
       locations: input.locations,
