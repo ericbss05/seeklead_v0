@@ -27,33 +27,34 @@ export function MultiSelectField({
 
   return (
     <div className="space-y-2">
-      <Label className="text-xs font-semibold">{label}</Label>
+      <Label className="text-sm font-medium text-foreground">{label}</Label>
       <Popover>
         <PopoverTrigger
           className={cn(
-            "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 text-sm",
+            "flex h-10 w-full items-center justify-between rounded-lg border border-input bg-background px-3 text-sm shadow-sm",
+            "hover:border-primary/50 transition-colors",
             values.length === 0 && "text-muted-foreground"
           )}
         >
-          <span>{triggerLabel}</span>
+          <span className={cn(values.length === 0 && "truncate")}>{triggerLabel}</span>
           <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
         </PopoverTrigger>
-        <PopoverContent className="w-[--radix-popover-trigger-width] p-1" align="start">
+        <PopoverContent className="w-[--radix-popover-trigger-width] max-h-60 overflow-y-auto p-1" align="start">
           {options.map((option) => (
             <label
               key={option}
-              className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
+              className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent transition-colors"
             >
               <Checkbox checked={values.includes(option)} onCheckedChange={() => toggle(option)} />
-              {option}
+              <span className="truncate">{option}</span>
             </label>
           ))}
         </PopoverContent>
       </Popover>
       {values.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 pt-1">
           {values.map((v) => (
-            <Badge key={v} variant="secondary" className="gap-1 rounded-md font-normal">
+            <Badge key={v} variant="secondary" className="gap-1 rounded-md h-6 px-2">
               {v}
               <button
                 type="button"
