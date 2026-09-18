@@ -6,7 +6,10 @@ import prisma from "@/lib/prisma";
 
 import type { ICPFormData } from "@/components/icp/form/types";
 
-export async function saveICP(data: ICPFormData) {
+export async function updateICP(
+  icpId: string,
+  data: ICPFormData,
+) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -23,9 +26,23 @@ export async function saveICP(data: ICPFormData) {
     throw new Error("Utilisateur introuvable");
   }
 
-  return prisma.iCP.create({
-    data: {
+  const icp = await prisma.iCP.findFirst({
+    where: {
+      id: icpId,
       userId: user.id,
+    },
+  });
+
+  if (!icp) {
+    throw new Error("Cible introuvable");
+  }
+
+  return prisma.iCP.update({
+    where: {
+      id: icpId,
+    },
+    data: {
+      name: data.name,
       jobTitles: data.jobTitles,
       locations: data.locations,
       industries: data.industries,

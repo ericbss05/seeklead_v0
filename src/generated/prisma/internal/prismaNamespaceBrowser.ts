@@ -86,6 +86,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const ICPScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  name: 'name',
   jobTitles: 'jobTitles',
   locations: 'locations',
   industries: 'industries',

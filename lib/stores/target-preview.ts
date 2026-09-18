@@ -2,26 +2,40 @@ import { create } from "zustand";
 
 import type { ICPFormData } from "@/components/icp/form/types";
 
-type ICPPreviewStore = {
+type TargetPreviewStore = {
   data: ICPFormData;
-  setData: (data: Partial<ICPFormData>) => void;
+  setData: (data: ICPFormData) => void;
+  updateData: (changes: Partial<ICPFormData>) => void;
+  reset: () => void;
 };
 
-export const useICPPreviewStore = create<ICPPreviewStore>((set) => ({
-  data: {
-    jobTitles: [],
-    locations: [],
-    industries: [],
-    companyTypes: [],
-    companySizes: [],
-    exclude: [],
+const initialData: ICPFormData = {
+  name: "",
+  jobTitles: [],
+  locations: [],
+  industries: [],
+  companyTypes: [],
+  companySizes: [],
+  exclude: [],
+};
+
+export const useICPPreviewStore = create<TargetPreviewStore>((set) => ({
+  data: initialData,
+
+  setData: (data) => {
+    set({ data });
   },
 
-  setData: (newData) =>
+  updateData: (changes) => {
     set((state) => ({
       data: {
         ...state.data,
-        ...newData,
+        ...changes,
       },
-    })),
+    }));
+  },
+
+  reset: () => {
+    set({ data: initialData });
+  },
 }));

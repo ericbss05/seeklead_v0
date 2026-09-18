@@ -1,4 +1,5 @@
 export type ICPFormData = {
+  name: string;
   jobTitles: string[];
   locations: string[];
   industries: string[];
@@ -9,5 +10,6 @@ export type ICPFormData = {
 
 export type ICPFormProps = {
   initialData?: Partial<ICPFormData>;
-  onSubmitSuccess: () => void;
+  onSubmitSuccess?: () => void;
+  icpId?: string;
 };

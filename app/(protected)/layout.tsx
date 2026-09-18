@@ -17,11 +17,11 @@ export default async function ProtectedLayout({
 
   await syncUser();
 
-  const icp = await getICP(userId);
+const icps = await getICP(userId);
 
-  if (!icp) {
-    redirect("/onboarding");
-  }
+if (icps.length === 0) {
+  redirect("/onboarding");
+}
 
   return children;
 }

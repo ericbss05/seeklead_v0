@@ -6,55 +6,72 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 import { saveICP } from "@/app/actions/icp/save";
+import { updateICP } from "@/app/actions/icp/update";
 import { useICPPreviewStore } from "@/lib/stores/target-preview";
 
 import Step1 from "./step-1";
 import Step2 from "./step-2";
 import Step3 from "./step-3";
+import Step4 from "./step-4";
 
 import type { ICPFormData, ICPFormProps } from "./types";
 
-const initialFormData: ICPFormData = {
-  jobTitles: [],
-  locations: [],
-  industries: [],
-  companyTypes: [],
-  companySizes: [],
-  exclude: [],
-};
-
-const STEP_COUNT = 3;
+const STEP_COUNT = 4;
 
 const steps = [
   {
-    title: "Décris ta cible idéal",
-    subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+    title: "Donne un nom à ta cible",
+    subtitle:
+      "Choisis un nom pour retrouver facilement cette cible.",
+  },
+  {
+    title: "Décris ta cible idéale",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
   },
   {
     title: "Où se trouve ta cible ?",
-    subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
   },
   {
     title: "Qui souhaites-tu exclure ?",
-    subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
+    subtitle:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed",
   },
 ];
+
+function normalizeFormData(
+  data?: Partial<ICPFormData>,
+): ICPFormData {
+  return {
+    name: data?.name ?? "",
+    jobTitles: data?.jobTitles ?? [],
+    locations: data?.locations ?? [],
+    industries: data?.industries ?? [],
+    companyTypes: data?.companyTypes ?? [],
+    companySizes: data?.companySizes ?? [],
+    exclude: data?.exclude ?? [],
+  };
+}
 
 export default function OnboardingForm({
   initialData,
   onSubmitSuccess,
-}: Partial<ICPFormProps> = {}) {
+  icpId,
+}: ICPFormProps = {}) {
   const router = useRouter();
 
-  const setPreviewData = useICPPreviewStore((state) => state.setData);
+  const setPreviewData = useICPPreviewStore(
+    (state) => state.setData,
+  );
 
   const [step, setStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [data, setData] = useState<ICPFormData>({
-    ...initialFormData,
-    ...initialData,
-  });
+  const [data, setData] = useState<ICPFormData>(() =>
+    normalizeFormData(initialData),
+  );
 
   useEffect(() => {
     setPreviewData(data);
@@ -68,18 +85,41 @@ export default function OnboardingForm({
   };
 
   const nextStep = () => {
-    setStep((current) => Math.min(current + 1, STEP_COUNT - 1));
+    if (step === 0 && !data.name.trim()) {
+      return;
+    }
+
+    setStep((current) =>
+      Math.min(current + 1, STEP_COUNT - 1),
+    );
   };
 
   const previousStep = () => {
-    setStep((current) => Math.max(current - 1, 0));
+    setStep((current) =>
+      Math.max(current - 1, 0),
+    );
   };
 
   const handleSubmit = async () => {
+    if (!data.name.trim()) {
+      setStep(0);
+      return;
+    }
+
     try {
       setIsSubmitting(true);
 
-      await saveICP(data);
+      if (icpId) {
+        await updateICP(icpId, {
+          ...data,
+          name: data.name.trim(),
+        });
+      } else {
+        await saveICP({
+          ...data,
+          name: data.name.trim(),
+        });
+      }
 
       if (onSubmitSuccess) {
         onSubmitSuccess();
@@ -92,6 +132,8 @@ export default function OnboardingForm({
   };
 
   const current = steps[step];
+
+  const isStep1Valid = data.name.trim().length > 0;
 
   return (
     <div className="w-full max-w-md">
@@ -117,11 +159,33 @@ export default function OnboardingForm({
       </div>
 
       <div className="mt-8">
-        {step === 0 && <Step1 data={data} onChange={updateData} />}
+        {step === 0 && (
+          <Step1
+            data={data}
+            onChange={updateData}
+          />
+        )}
 
-        {step === 1 && <Step2 data={data} onChange={updateData} />}
+        {step === 1 && (
+          <Step2
+            data={data}
+            onChange={updateData}
+          />
+        )}
 
-        {step === 2 && <Step3 data={data} onChange={updateData} />}
+        {step === 2 && (
+          <Step3
+            data={data}
+            onChange={updateData}
+          />
+        )}
+
+        {step === 3 && (
+          <Step4
+            data={data}
+            onChange={updateData}
+          />
+        )}
       </div>
 
       <div className="mt-10 flex items-center gap-3">
@@ -140,7 +204,7 @@ export default function OnboardingForm({
           <Button
             type="button"
             onClick={nextStep}
-            disabled={isSubmitting}
+            disabled={isSubmitting || (step === 0 && !isStep1Valid)}
           >
             Suivant
           </Button>
@@ -148,9 +212,11 @@ export default function OnboardingForm({
           <Button
             type="button"
             onClick={handleSubmit}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isStep1Valid}
           >
-            {isSubmitting ? "Enregistrement..." : "Enregistrer ma cible"}
+            {isSubmitting
+              ? "Enregistrement..."
+              : "Enregistrer ma cible"}
           </Button>
         )}
       </div>

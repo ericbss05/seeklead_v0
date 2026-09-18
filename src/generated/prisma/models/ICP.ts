@@ -27,6 +27,7 @@ export type AggregateICP = {
 export type ICPMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  name: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -34,6 +35,7 @@ export type ICPMinAggregateOutputType = {
 export type ICPMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  name: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -41,6 +43,7 @@ export type ICPMaxAggregateOutputType = {
 export type ICPCountAggregateOutputType = {
   id: number
   userId: number
+  name: number
   jobTitles: number
   locations: number
   industries: number
@@ -56,6 +59,7 @@ export type ICPCountAggregateOutputType = {
 export type ICPMinAggregateInputType = {
   id?: true
   userId?: true
+  name?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -63,6 +67,7 @@ export type ICPMinAggregateInputType = {
 export type ICPMaxAggregateInputType = {
   id?: true
   userId?: true
+  name?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -70,6 +75,7 @@ export type ICPMaxAggregateInputType = {
 export type ICPCountAggregateInputType = {
   id?: true
   userId?: true
+  name?: true
   jobTitles?: true
   locations?: true
   industries?: true
@@ -156,6 +162,7 @@ export type ICPGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type ICPGroupByOutputType = {
   id: string
   userId: string
+  name: string | null
   jobTitles: string[]
   locations: string[]
   industries: string[]
@@ -190,6 +197,7 @@ export type ICPWhereInput = {
   NOT?: Prisma.ICPWhereInput | Prisma.ICPWhereInput[]
   id?: Prisma.StringFilter<"ICP"> | string
   userId?: Prisma.StringFilter<"ICP"> | string
+  name?: Prisma.StringNullableFilter<"ICP"> | string | null
   jobTitles?: Prisma.StringNullableListFilter<"ICP">
   locations?: Prisma.StringNullableListFilter<"ICP">
   industries?: Prisma.StringNullableListFilter<"ICP">
@@ -204,6 +212,7 @@ export type ICPWhereInput = {
 export type ICPOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
   jobTitles?: Prisma.SortOrder
   locations?: Prisma.SortOrder
   industries?: Prisma.SortOrder
@@ -217,10 +226,11 @@ export type ICPOrderByWithRelationInput = {
 
 export type ICPWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  userId?: string
   AND?: Prisma.ICPWhereInput | Prisma.ICPWhereInput[]
   OR?: Prisma.ICPWhereInput[]
   NOT?: Prisma.ICPWhereInput | Prisma.ICPWhereInput[]
+  userId?: Prisma.StringFilter<"ICP"> | string
+  name?: Prisma.StringNullableFilter<"ICP"> | string | null
   jobTitles?: Prisma.StringNullableListFilter<"ICP">
   locations?: Prisma.StringNullableListFilter<"ICP">
   industries?: Prisma.StringNullableListFilter<"ICP">
@@ -230,11 +240,12 @@ export type ICPWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"ICP"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ICP"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "userId">
+}, "id">
 
 export type ICPOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
   jobTitles?: Prisma.SortOrder
   locations?: Prisma.SortOrder
   industries?: Prisma.SortOrder
@@ -254,6 +265,7 @@ export type ICPScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ICPScalarWhereWithAggregatesInput | Prisma.ICPScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ICP"> | string
   userId?: Prisma.StringWithAggregatesFilter<"ICP"> | string
+  name?: Prisma.StringNullableWithAggregatesFilter<"ICP"> | string | null
   jobTitles?: Prisma.StringNullableListFilter<"ICP">
   locations?: Prisma.StringNullableListFilter<"ICP">
   industries?: Prisma.StringNullableListFilter<"ICP">
@@ -266,6 +278,7 @@ export type ICPScalarWhereWithAggregatesInput = {
 
 export type ICPCreateInput = {
   id?: string
+  name?: string | null
   jobTitles?: Prisma.ICPCreatejobTitlesInput | string[]
   locations?: Prisma.ICPCreatelocationsInput | string[]
   industries?: Prisma.ICPCreateindustriesInput | string[]
@@ -280,6 +293,7 @@ export type ICPCreateInput = {
 export type ICPUncheckedCreateInput = {
   id?: string
   userId: string
+  name?: string | null
   jobTitles?: Prisma.ICPCreatejobTitlesInput | string[]
   locations?: Prisma.ICPCreatelocationsInput | string[]
   industries?: Prisma.ICPCreateindustriesInput | string[]
@@ -292,6 +306,7 @@ export type ICPUncheckedCreateInput = {
 
 export type ICPUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitles?: Prisma.ICPUpdatejobTitlesInput | string[]
   locations?: Prisma.ICPUpdatelocationsInput | string[]
   industries?: Prisma.ICPUpdateindustriesInput | string[]
@@ -306,6 +321,7 @@ export type ICPUpdateInput = {
 export type ICPUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitles?: Prisma.ICPUpdatejobTitlesInput | string[]
   locations?: Prisma.ICPUpdatelocationsInput | string[]
   industries?: Prisma.ICPUpdateindustriesInput | string[]
@@ -319,6 +335,7 @@ export type ICPUncheckedUpdateInput = {
 export type ICPCreateManyInput = {
   id?: string
   userId: string
+  name?: string | null
   jobTitles?: Prisma.ICPCreatejobTitlesInput | string[]
   locations?: Prisma.ICPCreatelocationsInput | string[]
   industries?: Prisma.ICPCreateindustriesInput | string[]
@@ -331,6 +348,7 @@ export type ICPCreateManyInput = {
 
 export type ICPUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitles?: Prisma.ICPUpdatejobTitlesInput | string[]
   locations?: Prisma.ICPUpdatelocationsInput | string[]
   industries?: Prisma.ICPUpdateindustriesInput | string[]
@@ -344,6 +362,7 @@ export type ICPUpdateManyMutationInput = {
 export type ICPUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitles?: Prisma.ICPUpdatejobTitlesInput | string[]
   locations?: Prisma.ICPUpdatelocationsInput | string[]
   industries?: Prisma.ICPUpdateindustriesInput | string[]
@@ -375,6 +394,7 @@ export type StringNullableListFilter<$PrismaModel = never> = {
 export type ICPCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   jobTitles?: Prisma.SortOrder
   locations?: Prisma.SortOrder
   industries?: Prisma.SortOrder
@@ -388,6 +408,7 @@ export type ICPCountOrderByAggregateInput = {
 export type ICPMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -395,6 +416,7 @@ export type ICPMaxOrderByAggregateInput = {
 export type ICPMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  name?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -497,6 +519,7 @@ export type ICPUpdateexcludeInput = {
 
 export type ICPCreateWithoutUserInput = {
   id?: string
+  name?: string | null
   jobTitles?: Prisma.ICPCreatejobTitlesInput | string[]
   locations?: Prisma.ICPCreatelocationsInput | string[]
   industries?: Prisma.ICPCreateindustriesInput | string[]
@@ -509,6 +532,7 @@ export type ICPCreateWithoutUserInput = {
 
 export type ICPUncheckedCreateWithoutUserInput = {
   id?: string
+  name?: string | null
   jobTitles?: Prisma.ICPCreatejobTitlesInput | string[]
   locations?: Prisma.ICPCreatelocationsInput | string[]
   industries?: Prisma.ICPCreateindustriesInput | string[]
@@ -551,6 +575,7 @@ export type ICPScalarWhereInput = {
   NOT?: Prisma.ICPScalarWhereInput | Prisma.ICPScalarWhereInput[]
   id?: Prisma.StringFilter<"ICP"> | string
   userId?: Prisma.StringFilter<"ICP"> | string
+  name?: Prisma.StringNullableFilter<"ICP"> | string | null
   jobTitles?: Prisma.StringNullableListFilter<"ICP">
   locations?: Prisma.StringNullableListFilter<"ICP">
   industries?: Prisma.StringNullableListFilter<"ICP">
@@ -563,6 +588,7 @@ export type ICPScalarWhereInput = {
 
 export type ICPCreateManyUserInput = {
   id?: string
+  name?: string | null
   jobTitles?: Prisma.ICPCreatejobTitlesInput | string[]
   locations?: Prisma.ICPCreatelocationsInput | string[]
   industries?: Prisma.ICPCreateindustriesInput | string[]
@@ -575,6 +601,7 @@ export type ICPCreateManyUserInput = {
 
 export type ICPUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitles?: Prisma.ICPUpdatejobTitlesInput | string[]
   locations?: Prisma.ICPUpdatelocationsInput | string[]
   industries?: Prisma.ICPUpdateindustriesInput | string[]
@@ -587,6 +614,7 @@ export type ICPUpdateWithoutUserInput = {
 
 export type ICPUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitles?: Prisma.ICPUpdatejobTitlesInput | string[]
   locations?: Prisma.ICPUpdatelocationsInput | string[]
   industries?: Prisma.ICPUpdateindustriesInput | string[]
@@ -599,6 +627,7 @@ export type ICPUncheckedUpdateWithoutUserInput = {
 
 export type ICPUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   jobTitles?: Prisma.ICPUpdatejobTitlesInput | string[]
   locations?: Prisma.ICPUpdatelocationsInput | string[]
   industries?: Prisma.ICPUpdateindustriesInput | string[]
@@ -614,6 +643,7 @@ export type ICPUncheckedUpdateManyWithoutUserInput = {
 export type ICPSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  name?: boolean
   jobTitles?: boolean
   locations?: boolean
   industries?: boolean
@@ -628,6 +658,7 @@ export type ICPSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
 export type ICPSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  name?: boolean
   jobTitles?: boolean
   locations?: boolean
   industries?: boolean
@@ -642,6 +673,7 @@ export type ICPSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
 export type ICPSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  name?: boolean
   jobTitles?: boolean
   locations?: boolean
   industries?: boolean
@@ -656,6 +688,7 @@ export type ICPSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
 export type ICPSelectScalar = {
   id?: boolean
   userId?: boolean
+  name?: boolean
   jobTitles?: boolean
   locations?: boolean
   industries?: boolean
@@ -666,7 +699,7 @@ export type ICPSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ICPOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "jobTitles" | "locations" | "industries" | "companyTypes" | "companySizes" | "exclude" | "createdAt" | "updatedAt", ExtArgs["result"]["iCP"]>
+export type ICPOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "jobTitles" | "locations" | "industries" | "companyTypes" | "companySizes" | "exclude" | "createdAt" | "updatedAt", ExtArgs["result"]["iCP"]>
 export type ICPInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -685,6 +718,7 @@ export type $ICPPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    name: string | null
     jobTitles: string[]
     locations: string[]
     industries: string[]
@@ -1119,6 +1153,7 @@ export interface Prisma__ICPClient<T, Null = never, ExtArgs extends runtime.Type
 export interface ICPFieldRefs {
   readonly id: Prisma.FieldRef<"ICP", 'String'>
   readonly userId: Prisma.FieldRef<"ICP", 'String'>
+  readonly name: Prisma.FieldRef<"ICP", 'String'>
   readonly jobTitles: Prisma.FieldRef<"ICP", 'String[]'>
   readonly locations: Prisma.FieldRef<"ICP", 'String[]'>
   readonly industries: Prisma.FieldRef<"ICP", 'String[]'>

@@ -11,12 +11,15 @@ export async function getICP(clerkUserId: string) {
   });
 
   if (!user) {
-    return null;
+    return [];
   }
 
-  return prisma.iCP.findUnique({
+  return prisma.iCP.findMany({
     where: {
       userId: user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 }
