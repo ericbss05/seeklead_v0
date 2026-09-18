@@ -15,7 +15,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  icp ICP[]
+  icps   ICP[]
+  agents Agent[]
 }
 
 model ICP {
@@ -23,13 +24,75 @@ model ICP {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  agents Agent[]
+
   name         String?
   jobTitles    String[]
-  locations   String[]
-  industries  String[]
+  locations    String[]
+  industries   String[]
   companyTypes String[]
   companySizes String[]
   exclude      String[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Agent {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name     String
+  isActive Boolean @default(false)
+
+  signals Signal[]
+  icps    ICP[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Signal {
+  id      String @id @default(cuid())
+  agentId String
+  agent   Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  name String
+
+  keywords Keyword[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agentId])
+}
+
+model Keyword {
+  id String @id @default(cuid())
+
+  raw String // Mot brut (ex: "pome", "Pommes ")
+
+  signalId String?
+  signal   Signal? @relation(fields: [signalId], references: [id], onDelete: Cascade)
+
+  searchTermId String?
+  searchTerm   SearchTerm? @relation(fields: [searchTermId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([signalId])
+  @@index([searchTermId])
+}
+
+model SearchTerm {
+  id String @id @default(cuid())
+
+  value String @unique // Terme normalisé unique (ex: "pomme")
+
+  keywords Keyword[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

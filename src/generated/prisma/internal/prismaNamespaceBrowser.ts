@@ -52,7 +52,11 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  ICP: 'ICP'
+  ICP: 'ICP',
+  Agent: 'Agent',
+  Signal: 'Signal',
+  Keyword: 'Keyword',
+  SearchTerm: 'SearchTerm'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -98,6 +102,50 @@ export const ICPScalarFieldEnum = {
 } as const
 
 export type ICPScalarFieldEnum = (typeof ICPScalarFieldEnum)[keyof typeof ICPScalarFieldEnum]
+
+
+export const AgentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AgentScalarFieldEnum = (typeof AgentScalarFieldEnum)[keyof typeof AgentScalarFieldEnum]
+
+
+export const SignalScalarFieldEnum = {
+  id: 'id',
+  agentId: 'agentId',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SignalScalarFieldEnum = (typeof SignalScalarFieldEnum)[keyof typeof SignalScalarFieldEnum]
+
+
+export const KeywordScalarFieldEnum = {
+  id: 'id',
+  raw: 'raw',
+  signalId: 'signalId',
+  searchTermId: 'searchTermId',
+  createdAt: 'createdAt'
+} as const
+
+export type KeywordScalarFieldEnum = (typeof KeywordScalarFieldEnum)[keyof typeof KeywordScalarFieldEnum]
+
+
+export const SearchTermScalarFieldEnum = {
+  id: 'id',
+  value: 'value',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SearchTermScalarFieldEnum = (typeof SearchTermScalarFieldEnum)[keyof typeof SearchTermScalarFieldEnum]
 
 
 export const SortOrder = {

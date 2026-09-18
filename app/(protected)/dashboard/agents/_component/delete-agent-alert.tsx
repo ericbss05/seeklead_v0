@@ -15,28 +15,28 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-import { deleteICP } from "@/app/actions/icp/delete";
+import { deleteAgent } from "@/app/actions/agent/delete";
 
-interface DeleteTargetAlertProps {
-  icpId: string;
-  icpName: string;
+interface DeleteAgentAlertProps {
+  agentId: string;
+  agentName: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSuccess?: () => void;
+  onSuccess?: () => void; // Optionnel : si le parent veut exécuter une action spécifique
 }
 
-export function DeleteTargetAlert({
-  icpId,
-  icpName,
+export function DeleteAgentAlert({
+  agentId,
+  agentName,
   open,
   onOpenChange,
   onSuccess,
-}: DeleteTargetAlertProps) {
+}: DeleteAgentAlertProps) {
   const router = useRouter();
   const [confirmationName, setConfirmationName] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const isConfirmed = confirmationName === icpName;
+  const isConfirmed = confirmationName === agentName;
 
   const handleOpenChange = (value: boolean) => {
     onOpenChange(value);
@@ -52,15 +52,15 @@ export function DeleteTargetAlert({
     try {
       setIsDeleting(true);
 
-      await deleteICP(icpId);
+      await deleteAgent(agentId);
 
       onOpenChange(false);
       setConfirmationName("");
 
-      // Rafraîchit les Server Components sans recharger la page entière
+      // Re-fetch les Server Components de la page courante sans tout recharger
       router.refresh();
 
-      // Exécute le callback si fourni par le parent
+      // Callback optionnel (ex: toast de confirmation ou mise à jour d'un state parent)
       onSuccess?.();
     } catch (error) {
       console.error("Erreur lors de la suppression :", error);
@@ -83,7 +83,7 @@ export function DeleteTargetAlert({
           </AlertDialogDescription>
 
           <div className="rounded-md bg-muted px-3 py-2 text-sm font-medium text-foreground">
-            {icpName}
+            {agentName}
           </div>
         </AlertDialogHeader>
 
@@ -92,7 +92,7 @@ export function DeleteTargetAlert({
           onChange={(event) =>
             setConfirmationName(event.target.value)
           }
-          placeholder={icpName}
+          placeholder={agentName}
           disabled={isDeleting}
         />
 

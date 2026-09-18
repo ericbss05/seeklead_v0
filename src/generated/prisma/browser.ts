@@ -27,3 +27,23 @@ export type User = Prisma.UserModel
  * 
  */
 export type ICP = Prisma.ICPModel
+/**
+ * Model Agent
+ * 
+ */
+export type Agent = Prisma.AgentModel
+/**
+ * Model Signal
+ * 
+ */
+export type Signal = Prisma.SignalModel
+/**
+ * Model Keyword
+ * 
+ */
+export type Keyword = Prisma.KeywordModel
+/**
+ * Model SearchTerm
+ * 
+ */
+export type SearchTerm = Prisma.SearchTermModel

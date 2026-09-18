@@ -10,4 +10,8 @@
  */
 export type * from './models/User'
 export type * from './models/ICP'
+export type * from './models/Agent'
+export type * from './models/Signal'
+export type * from './models/Keyword'
+export type * from './models/SearchTerm'
 export type * from './commonInputTypes'
